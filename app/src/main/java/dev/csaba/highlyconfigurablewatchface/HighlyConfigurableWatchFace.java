@@ -123,15 +123,14 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
 
             calendar = Calendar.getInstance();
 
-            Typeface vt323Typeface = getResources().getFont(R.font.vt323_font);
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
-            initializeComplications(vt323Typeface, displayMetrics);
+            initializeComplications(displayMetrics);
 
-            initializeWatchFace(vt323Typeface, displayMetrics);
+            initializeWatchFace(displayMetrics);
         }
 
-        private void initializeComplications(Typeface vt323Typeface, DisplayMetrics displayMetrics) {
+        private void initializeComplications(DisplayMetrics displayMetrics) {
             Log.d(TAG, "initializeComplications()");
 
             activeComplicationDataSparseArray =
@@ -152,12 +151,8 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
                         (ComplicationDrawable) getDrawable(R.drawable.custom_complication_styles);
 
                 if (complicationDrawable != null) {
-                    complicationDrawable.setTextTypefaceActive(vt323Typeface);
-                    complicationDrawable.setTextTypefaceAmbient(vt323Typeface);
                     complicationDrawable.setTextSizeActive(fontSize);
                     complicationDrawable.setTextSizeAmbient(fontSize);
-                    complicationDrawable.setTitleTypefaceActive(vt323Typeface);
-                    complicationDrawable.setTitleTypefaceAmbient(vt323Typeface);
                     complicationDrawable.setTitleSizeActive(fontSize);
                     complicationDrawable.setTitleSizeAmbient(fontSize);
                     complicationDrawable.setContext(appContext);
@@ -171,7 +166,7 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
             setActiveComplications(ComplicationConfigActivity.LOCATION_INDEXES);
         }
 
-        private void initializeWatchFace(Typeface vt323Typeface, DisplayMetrics displayMetrics) {
+        private void initializeWatchFace(DisplayMetrics displayMetrics) {
             /* Set defaults for colors */
             // We setup the time formatter
             normalTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
@@ -183,7 +178,6 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
             timePaint.setAntiAlias(true);
             timePaint.setTextSize(TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 68, displayMetrics));
-            timePaint.setTypeface(vt323Typeface);
 
             // Divider paint
             dividerPaint = new TextPaint();
@@ -191,7 +185,6 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
             dividerPaint.setAntiAlias(true);
             dividerPaint.setTextSize(TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 68, displayMetrics));
-            dividerPaint.setTypeface(vt323Typeface);
         }
 
         @Override

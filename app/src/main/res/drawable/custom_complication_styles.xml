@@ -31,11 +31,11 @@
     app:rangedValueRingWidth="1dp"
     app:rangedValueSecondaryColor="@color/white"
     app:textColor="@color/yellow"
-    app:textSize="28sp"
-    app:textTypeface="@font/vt323_font"
+    app:textSize="26sp"
+    app:textTypeface="Roboto"
     app:titleColor="@color/amber"
     app:titleSize="28sp"
-    app:titleTypeface="@font/vt323_font">
+    app:titleTypeface="Roboto">
 
     <ambient
         app:highlightColor="@color/red"
