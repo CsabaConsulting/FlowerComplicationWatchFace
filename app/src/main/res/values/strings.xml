@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Highly Configurable Watch Face</string>
+    <string name="message">Watch face tapped</string>
+    <string name="watch_name">Highly Configurable Watch</string>
+</resources>
