@@ -30,32 +30,37 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
 
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
 
-    private static final int[] COMPLICATION_SUPPORTED_TYPES = {
+    private static final int[] SMALL_COMPLICATION_SUPPORTED_TYPES = {
         ComplicationData.TYPE_RANGED_VALUE,
         ComplicationData.TYPE_ICON,
         ComplicationData.TYPE_SHORT_TEXT,
         ComplicationData.TYPE_SMALL_IMAGE
     };
+    private static final int[] LONG_COMPLICATION_SUPPORTED_TYPES = {
+        ComplicationData.TYPE_LARGE_IMAGE,
+        ComplicationData.TYPE_LONG_TEXT,
+    };
 
     private static final int MIN_LOCATION_INDEX = 0;
+    private static final int LONG_LOCATION_INDEX_START = 4;
     private static final int MAX_LOCATION_INDEX = 5;
     public static final int[] LOCATION_INDEXES =
             IntStream.rangeClosed(MIN_LOCATION_INDEX, MAX_LOCATION_INDEX).toArray();
     private static final int[] BACKGROUND_RESOURCE_IDS = {
         R.id.top_left_complication_background,
-        R.id.top_center_complication_background,
         R.id.top_right_complication_background,
         R.id.bottom_left_complication_background,
-        R.id.bottom_center_complication_background,
-        R.id.bottom_right_complication_background
+        R.id.bottom_right_complication_background,
+//        R.id.top_long_complication_background,
+//        R.id.bottom_long_complication_background,
     };
     private static final int[] COMPLICATION_RESOURCE_IDS = {
         R.id.top_left_complication,
-        R.id.top_center_complication,
         R.id.top_right_complication,
         R.id.bottom_left_complication,
-        R.id.bottom_center_complication,
-        R.id.bottom_right_complication
+        R.id.bottom_right_complication,
+//        R.id.top_long_complication,
+//        R.id.bottom_long_complication,
     };
 
     // Selected complication id by user.
@@ -70,7 +75,8 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     private ImageView[] complicationBackgrounds;
     private ImageButton[] complications;
 
-    private Drawable defaultAddComplicationDrawable;
+    private Drawable defaultAddSmallComplicationDrawable;
+    private Drawable defaultAddLongComplicationDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +84,8 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
 
         setContentView(R.layout.activity_config);
 
-        defaultAddComplicationDrawable = getDrawable(R.drawable.add_complication);
+        defaultAddSmallComplicationDrawable = getDrawable(R.drawable.add_small_complication);
+        defaultAddLongComplicationDrawable = getDrawable(R.drawable.add_long_complication);
 
         selectedComplicationId = -1;
 
@@ -97,7 +104,11 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
             complications[locationIndex].setOnClickListener(this);
 
             // Sets default as "Add Complication" icon.
-            complications[locationIndex].setImageDrawable(defaultAddComplicationDrawable);
+            if (locationIndex < LONG_LOCATION_INDEX_START) {
+                complications[locationIndex].setImageDrawable(defaultAddSmallComplicationDrawable);
+            } else {
+                complications[locationIndex].setImageDrawable(defaultAddLongComplicationDrawable);
+            }
             complicationBackgrounds[locationIndex].setVisibility(View.INVISIBLE);
         }
 
@@ -160,7 +171,7 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
                             getApplicationContext(),
                             watchFaceComponentName,
                             selectedComplicationId,
-                            COMPLICATION_SUPPORTED_TYPES),
+                            SMALL_COMPLICATION_SUPPORTED_TYPES),
                     ComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
 
         } else {
@@ -178,7 +189,11 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
                 complications[watchFaceComplicationId].setImageIcon(complicationProviderInfo.providerIcon);
                 complicationBackgrounds[watchFaceComplicationId].setVisibility(View.VISIBLE);
             } else {
-                complications[watchFaceComplicationId].setImageDrawable(defaultAddComplicationDrawable);
+                if (watchFaceComplicationId < LONG_LOCATION_INDEX_START) {
+                    complications[watchFaceComplicationId].setImageDrawable(defaultAddSmallComplicationDrawable);
+                } else {
+                    complications[watchFaceComplicationId].setImageDrawable(defaultAddLongComplicationDrawable);
+                }
                 complicationBackgrounds[watchFaceComplicationId].setVisibility(View.INVISIBLE);
             }
         }

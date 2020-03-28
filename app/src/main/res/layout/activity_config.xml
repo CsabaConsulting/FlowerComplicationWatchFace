@@ -37,7 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/added_complication" />
+        android:src="@drawable/added_small_complication" />
 
     <ImageButton
         android:id="@+id/top_center_complication"
@@ -52,7 +52,7 @@
         android:id="@+id/top_left_complication_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/added_complication"
+        android:src="@drawable/added_small_complication"
         style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
         android:layout_alignTop="@+id/top_center_complication_background"
@@ -72,7 +72,7 @@
         android:id="@+id/top_right_complication_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/added_complication"
+        android:src="@drawable/added_small_complication"
         style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
         android:layout_alignTop="@+id/top_center_complication_background"
@@ -97,7 +97,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="18dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/added_complication" />
+        android:src="@drawable/added_small_complication" />
 
     <ImageButton
         android:id="@+id/bottom_center_complication"
@@ -116,7 +116,7 @@
         android:layout_alignTop="@+id/bottom_center_complication_background"
         android:layout_alignStart="@+id/watch_face_background"
         android:background="@android:color/transparent"
-        android:src="@drawable/added_complication"
+        android:src="@drawable/added_small_complication"
         android:layout_marginStart="19dp" />
 
     <ImageButton
@@ -132,7 +132,7 @@
         android:id="@+id/bottom_right_complication_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/added_complication"
+        android:src="@drawable/added_small_complication"
         style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
         android:layout_alignTop="@+id/bottom_center_complication_background"
