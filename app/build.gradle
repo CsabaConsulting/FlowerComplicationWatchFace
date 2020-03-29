@@ -5,7 +5,7 @@ android {
 
 
     defaultConfig {
-        applicationId "dev.csaba.highlyconfigurablewatchface"
+        applicationId "dev.csaba.complicationflowerwatchface"
         minSdkVersion 26
         targetSdkVersion 29
         versionCode 1

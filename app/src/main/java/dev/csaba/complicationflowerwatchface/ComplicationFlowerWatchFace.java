@@ -1,4 +1,4 @@
-package dev.csaba.highlyconfigurablewatchface;
+package dev.csaba.complicationflowerwatchface;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -25,7 +25,6 @@ import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
-import android.util.TypedValue;
 import android.view.SurfaceHolder;
 
 import java.lang.ref.WeakReference;
@@ -41,9 +40,9 @@ import java.util.concurrent.TimeUnit;
  * in the Google Watch Face Code Lab:
  * https://codelabs.developers.google.com/codelabs/watchface/index.html#0
  */
-public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
+public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
 
-    private static final String TAG = "HighlyConfigurableWatchFace";
+    private static final String TAG = "ComplicationFlowerWatchFace";
 
     /*
      * Update rate in milliseconds for interactive mode. Updating once a second to advance seconds.
@@ -61,15 +60,15 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
     }
 
     private static class EngineHandler extends Handler {
-        private final WeakReference<HighlyConfigurableWatchFace.Engine> mWeakReference;
+        private final WeakReference<ComplicationFlowerWatchFace.Engine> mWeakReference;
 
-        EngineHandler(HighlyConfigurableWatchFace.Engine reference) {
+        EngineHandler(ComplicationFlowerWatchFace.Engine reference) {
             mWeakReference = new WeakReference<>(reference);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            HighlyConfigurableWatchFace.Engine engine = mWeakReference.get();
+            ComplicationFlowerWatchFace.Engine engine = mWeakReference.get();
             if (engine != null) {
                 if (msg.what == MSG_UPDATE_TIME) {
                     engine.handleUpdateTimeMessage();
@@ -110,7 +109,7 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
 
-            setWatchFaceStyle(new WatchFaceStyle.Builder(HighlyConfigurableWatchFace.this)
+            setWatchFaceStyle(new WatchFaceStyle.Builder(ComplicationFlowerWatchFace.this)
                     .setAcceptsTapEvents(true)
                     .build());
 
@@ -125,14 +124,6 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
 
         private void initializeComplications(DisplayMetrics displayMetrics) {
             Log.d(TAG, "initializeComplications()");
-
-//            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-//            SharedPreferences.Editor editor = settings.edit();
-//            editor.putString("FaceStyle", faceStyle.toString());
-//            editor.commit();
-//
-//            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-//            settings.getString("FaceStyle", "0").toString();
 
             activeComplicationDataSparseArray =
                     new SparseArray<>(ComplicationConfigActivity.LOCATION_INDEXES.length);
@@ -512,7 +503,7 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
             }
             registeredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            HighlyConfigurableWatchFace.this.registerReceiver(timeZoneReceiver, filter);
+            ComplicationFlowerWatchFace.this.registerReceiver(timeZoneReceiver, filter);
         }
 
         private void unregisterReceiver() {
@@ -520,7 +511,7 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
                 return;
             }
             registeredTimeZoneReceiver = false;
-            HighlyConfigurableWatchFace.this.unregisterReceiver(timeZoneReceiver);
+            ComplicationFlowerWatchFace.this.unregisterReceiver(timeZoneReceiver);
         }
 
         /**

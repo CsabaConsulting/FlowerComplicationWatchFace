@@ -1,7 +1,7 @@
-# HighlyConfigurableWatchFace
-So configurable Wear OS watch face it only consists of complications
+# ComplicationFlowerWatchFace
+Wear OS watch consisting of complications laid out in a flower pattern
 
 Goals:
 
 * A main goal is to preserve battery also decrease installation size, so there's no background image. Resources are vectorial.
-* This will be a base of series of watch faces consisting of various configurations of complications.
+* With many complication slots you'll decide what you'll see.

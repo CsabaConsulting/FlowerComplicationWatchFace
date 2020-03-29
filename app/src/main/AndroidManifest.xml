@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.csaba.highlyconfigurablewatchface"
+    package="dev.csaba.complicationflowerwatchface"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.type.watch" />
@@ -34,7 +34,7 @@
             android:required="false"/>
 
         <service
-            android:name=".HighlyConfigurableWatchFace"
+            android:name=".ComplicationFlowerWatchFace"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_WALLPAPER">
 
