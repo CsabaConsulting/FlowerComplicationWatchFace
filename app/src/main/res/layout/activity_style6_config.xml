@@ -29,35 +29,16 @@
 
 
     <ImageView
-        android:id="@+id/top_center_complication_background"
-        style="?android:borderlessButtonStyle"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignTop="@+id/watch_face_background"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/added_small_complication" />
-
-    <ImageButton
-        android:id="@+id/top_center_complication"
-        style="?android:borderlessButtonStyle"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/top_center_complication_background"
-        android:layout_alignTop="@+id/top_center_complication_background"
-        android:background="@android:color/transparent" />
-
-    <ImageView
         android:id="@+id/top_left_complication_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/added_small_complication"
+        android:src="@drawable/added_small_round_complication"
         style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
-        android:layout_alignTop="@+id/top_center_complication_background"
+        android:layout_alignTop="@+id/watch_face_background"
         android:layout_alignStart="@+id/watch_face_background"
-        android:layout_marginStart="19dp" />
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="4dp" />
 
     <ImageButton
         android:id="@+id/top_left_complication"
@@ -72,10 +53,10 @@
         android:id="@+id/top_right_complication_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/added_small_complication"
+        android:src="@drawable/added_small_round_complication"
         style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
-        android:layout_alignTop="@+id/top_center_complication_background"
+        android:layout_alignTop="@+id/top_right_complication"
         android:layout_alignStart="@+id/top_right_complication" />
 
     <ImageButton
@@ -84,40 +65,61 @@
         android:layout_height="wrap_content"
         style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
-        android:layout_alignTop="@+id/top_right_complication_background"
-        android:layout_alignEnd="@+id/watch_face_background"
-        android:layout_marginEnd="19dp" />
+        android:layout_alignTop="@+id/top_left_complication_background"
+        android:layout_alignStart="@+id/top_left_complication_background"
+        android:layout_marginStart="48dp" />
 
     <ImageView
-        android:id="@+id/bottom_center_complication_background"
+        android:id="@+id/top_long_complication_background"
         style="?android:borderlessButtonStyle"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignBottom="@+id/watch_face_background"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/top_left_complication_background"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="18dp"
+        android:layout_marginTop="46dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/added_small_complication" />
+        android:src="@drawable/added_long_round_complication" />
 
     <ImageButton
-        android:id="@+id/bottom_center_complication"
+        android:id="@+id/top_long_complication"
         style="?android:borderlessButtonStyle"
-        android:layout_width="48dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/top_long_complication_background"
+        android:layout_alignTop="@+id/top_long_complication_background"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/bottom_long_complication_background"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/top_long_complication_background"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/added_long_round_complication" />
+
+    <ImageButton
+        android:id="@+id/bottom_long_complication"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:layout_alignStart="@+id/bottom_center_complication_background"
-        android:layout_alignTop="@+id/bottom_center_complication_background" />
+        android:layout_alignStart="@+id/bottom_long_complication_background"
+        android:layout_alignTop="@+id/bottom_long_complication_background" />
 
     <ImageView
         android:id="@+id/bottom_left_complication_background"
         style="?android:borderlessButtonStyle"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignTop="@+id/bottom_center_complication_background"
+        android:layout_alignTop="@+id/bottom_long_complication_background"
         android:layout_alignStart="@+id/watch_face_background"
         android:background="@android:color/transparent"
-        android:src="@drawable/added_small_complication"
-        android:layout_marginStart="19dp" />
+        android:src="@drawable/added_small_round_complication"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="38dp" />
 
     <ImageButton
         android:id="@+id/bottom_left_complication"
@@ -132,10 +134,10 @@
         android:id="@+id/bottom_right_complication_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/added_small_complication"
+        android:src="@drawable/added_small_round_complication"
         style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
-        android:layout_alignTop="@+id/bottom_center_complication_background"
+        android:layout_alignTop="@+id/bottom_left_complication_background"
         android:layout_alignStart="@+id/bottom_right_complication" />
 
     <ImageButton
@@ -145,7 +147,7 @@
         style="?android:borderlessButtonStyle"
         android:background="@android:color/transparent"
         android:layout_alignTop="@+id/bottom_right_complication_background"
-        android:layout_alignEnd="@+id/watch_face_background"
-        android:layout_marginEnd="19dp" />
+        android:layout_alignStart="@+id/bottom_left_complication_background"
+        android:layout_marginStart="48dp" />
 
 </RelativeLayout>

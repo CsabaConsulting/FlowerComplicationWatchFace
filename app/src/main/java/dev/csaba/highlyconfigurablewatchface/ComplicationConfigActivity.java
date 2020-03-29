@@ -51,16 +51,16 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
         R.id.top_right_complication_background,
         R.id.bottom_left_complication_background,
         R.id.bottom_right_complication_background,
-//        R.id.top_long_complication_background,
-//        R.id.bottom_long_complication_background,
+        R.id.top_long_complication_background,
+        R.id.bottom_long_complication_background,
     };
     private static final int[] COMPLICATION_RESOURCE_IDS = {
         R.id.top_left_complication,
         R.id.top_right_complication,
         R.id.bottom_left_complication,
         R.id.bottom_right_complication,
-//        R.id.top_long_complication,
-//        R.id.bottom_long_complication,
+        R.id.top_long_complication,
+        R.id.bottom_long_complication,
     };
 
     // Selected complication id by user.
@@ -82,10 +82,10 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_config);
+        setContentView(R.layout.activity_style6_config);
 
-        defaultAddSmallComplicationDrawable = getDrawable(R.drawable.add_small_complication);
-        defaultAddLongComplicationDrawable = getDrawable(R.drawable.add_long_complication);
+        defaultAddSmallComplicationDrawable = getDrawable(R.drawable.add_small_round_complication);
+        defaultAddLongComplicationDrawable = getDrawable(R.drawable.add_long_round_complication);
 
         selectedComplicationId = -1;
 

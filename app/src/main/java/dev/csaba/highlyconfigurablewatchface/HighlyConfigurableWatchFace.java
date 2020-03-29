@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +22,6 @@ import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
-import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
@@ -29,9 +29,7 @@ import android.util.TypedValue;
 import android.view.SurfaceHolder;
 
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -94,11 +92,7 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
         private boolean registeredTimeZoneReceiver = false;
         private boolean muteMode;
 
-        private SimpleDateFormat normalTimeFormat;
-        private SimpleDateFormat ambientTimeFormat;
-
-        private TextPaint timePaint;
-        private TextPaint dividerPaint;
+        private Paint signPaint;
 
         private boolean ambient;
 
@@ -132,6 +126,14 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
         private void initializeComplications(DisplayMetrics displayMetrics) {
             Log.d(TAG, "initializeComplications()");
 
+//            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+//            SharedPreferences.Editor editor = settings.edit();
+//            editor.putString("FaceStyle", faceStyle.toString());
+//            editor.commit();
+//
+//            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+//            settings.getString("FaceStyle", "0").toString();
+
             activeComplicationDataSparseArray =
                     new SparseArray<>(ComplicationConfigActivity.LOCATION_INDEXES.length);
             complicationDrawableSparseArray =
@@ -143,17 +145,11 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
             // All styles for the complications are defined in
             // drawable/custom_complication_styles.xml.
             Context appContext = getApplicationContext();
-            int fontSize = (int)TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_SP, 28, displayMetrics);
             for (int complicationId : ComplicationConfigActivity.LOCATION_INDEXES) {
                 ComplicationDrawable complicationDrawable =
                         (ComplicationDrawable) getDrawable(R.drawable.custom_complication_styles);
 
                 if (complicationDrawable != null) {
-                    complicationDrawable.setTextSizeActive(fontSize);
-                    complicationDrawable.setTextSizeAmbient(fontSize);
-                    complicationDrawable.setTitleSizeActive(fontSize);
-                    complicationDrawable.setTitleSizeAmbient(fontSize);
                     complicationDrawable.setContext(appContext);
                 }
 
@@ -166,24 +162,12 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
         }
 
         private void initializeWatchFace(DisplayMetrics displayMetrics) {
-            /* Set defaults for colors */
-            // We setup the time formatter
-            normalTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-            ambientTimeFormat = new SimpleDateFormat("hh:mma", Locale.getDefault());
-
-            // The time paint
-            timePaint = new TextPaint();
-            timePaint.setColor(Color.YELLOW);
-            timePaint.setAntiAlias(true);
-            timePaint.setTextSize(TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 68, displayMetrics));
-
-            // Divider paint
-            dividerPaint = new TextPaint();
-            dividerPaint.setColor(Color.parseColor("#FFBF00"));  // Amber
-            dividerPaint.setAntiAlias(true);
-            dividerPaint.setTextSize(TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 68, displayMetrics));
+            // The sign paint
+            signPaint = new Paint();
+            signPaint.setColor(Color.YELLOW);
+            signPaint.setStrokeWidth(15f);
+            signPaint.setAntiAlias(true);
+            signPaint.setStrokeCap(Paint.Cap.SQUARE);
         }
 
         @Override
@@ -212,7 +196,7 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
             for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
                 complicationDrawable = complicationDrawableSparseArray.get(complicationIndex);
 
-                if(complicationDrawable != null) {
+                if (complicationDrawable != null) {
                     complicationDrawable.setLowBitAmbient(lowBitAmbient);
                     complicationDrawable.setBurnInProtection(mBurnInProtection);
                 }
@@ -266,20 +250,19 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
          */
         private int getTappedComplicationIndex(int x, int y) {
 
-            ComplicationData complicationData;
-            ComplicationDrawable complicationDrawable;
-
             long currentTimeMillis = System.currentTimeMillis();
 
             for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
-                complicationData = activeComplicationDataSparseArray.get(complicationIndex);
+                ComplicationData complicationData =
+                        activeComplicationDataSparseArray.get(complicationIndex);
 
-                if ((complicationData != null)
-                        && (complicationData.isActive(currentTimeMillis))
-                        && (complicationData.getType() != ComplicationData.TYPE_NOT_CONFIGURED)
-                        && (complicationData.getType() != ComplicationData.TYPE_EMPTY)) {
+                if (complicationData != null
+                    && complicationData.isActive(currentTimeMillis)
+                    && complicationData.getType() != ComplicationData.TYPE_NOT_CONFIGURED
+                    && complicationData.getType() != ComplicationData.TYPE_EMPTY) {
 
-                    complicationDrawable = complicationDrawableSparseArray.get(complicationIndex);
+                    ComplicationDrawable complicationDrawable =
+                            complicationDrawableSparseArray.get(complicationIndex);
                     Rect complicationBoundingRect = complicationDrawable.getBounds();
 
                     if (complicationBoundingRect.width() > 0) {
@@ -292,6 +275,21 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
                 }
             }
             return -1;
+        }
+
+        private boolean hasAnyComplicationConfigured() {
+            for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
+                ComplicationData complicationData =
+                        activeComplicationDataSparseArray.get(complicationIndex);
+
+                if (complicationData != null
+                    && complicationData.getType() != ComplicationData.TYPE_NOT_CONFIGURED
+                    && complicationData.getType() != ComplicationData.TYPE_EMPTY)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         // Fires PendingIntent associated with complication (if it has one).
@@ -360,11 +358,9 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
 
         private void updateWatchHandStyle() {
             if (ambient) {
-                timePaint.setAntiAlias(false);
-                dividerPaint.setAntiAlias(false);
+                signPaint.setAntiAlias(false);
             } else {
-                timePaint.setAntiAlias(true);
-                dividerPaint.setAntiAlias(false);
+                signPaint.setAntiAlias(true);
             }
         }
 
@@ -376,8 +372,7 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
             /* Dim display in mute mode. */
             if (muteMode != inMuteMode) {
                 muteMode = inMuteMode;
-                timePaint.setAlpha(inMuteMode ? 100 : 255);
-                dividerPaint.setAlpha(inMuteMode ? 100 : 255);
+                signPaint.setAlpha(inMuteMode ? 100 : 255);
                 invalidate();
             }
         }
@@ -396,37 +391,51 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
              */
 
             // For most Wear devices, width and height are the same, so we just chose one (width).
-            int sizeOfComplication = width / 4;
+            int sizeOfRoundComplication = width / 4;
+            int heightOfLongComplication = width / 5;
             int midpointOfScreen = width / 2;
-            int gap = width / 64;
+            int gap = width / 128;
 
             for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
                 int verticalOffset;
-                if (complicationIndex < 3) {
-                    verticalOffset = midpointOfScreen - sizeOfComplication * 3 / 2 + gap;
+                if (complicationIndex < 2) {
+                    verticalOffset = gap;
+                } else if (complicationIndex < 4) {
+                    verticalOffset = midpointOfScreen + heightOfLongComplication;
+                } else if (complicationIndex == 4) {
+                    verticalOffset = midpointOfScreen - heightOfLongComplication;
                 } else {
-                    verticalOffset = midpointOfScreen + sizeOfComplication / 2 - gap;
+                    verticalOffset = midpointOfScreen;
                 }
                 int horizontalOffset = 0;
-                switch (complicationIndex % 3) {
-                    case 0:
-                        horizontalOffset = midpointOfScreen - sizeOfComplication * 3 / 2 - gap;
-                        break;
-                    case 1:
-                        horizontalOffset = midpointOfScreen - sizeOfComplication / 2;
-                        break;
-                    case 2:
-                        horizontalOffset = midpointOfScreen + sizeOfComplication / 2 + gap;
-                        break;
+                if (complicationIndex >= 4) {
+                    horizontalOffset = gap * 2;
+                } else {
+                    if (complicationIndex % 2 == 0) {
+                        horizontalOffset = midpointOfScreen - sizeOfRoundComplication;
+                    } else {
+                        horizontalOffset = midpointOfScreen;
+                    }
                 }
 
-                Rect complicationBounds =
+                Rect complicationBounds = null;
+                if (complicationIndex < 4) {
+                    complicationBounds =
                         // Left, Top, Right, Bottom
                         new Rect(
-                                horizontalOffset,
-                                verticalOffset,
-                                (horizontalOffset + sizeOfComplication),
-                                (verticalOffset + sizeOfComplication));
+                            horizontalOffset,
+                            verticalOffset,
+                            horizontalOffset + sizeOfRoundComplication,
+                            verticalOffset + sizeOfRoundComplication);
+                } else {
+                    complicationBounds =
+                            // Left, Top, Right, Bottom
+                        new Rect(
+                            horizontalOffset,
+                            verticalOffset,
+                            width - horizontalOffset,
+                            verticalOffset + heightOfLongComplication);
+                }
 
                 Log.d(TAG, String.format("Complication %d bounds, %d x %d %d x %d",
                         complicationIndex, complicationBounds.left, complicationBounds.top,
@@ -447,7 +456,8 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
 
             drawBackground(canvas);
             drawComplications(canvas, now);
-            drawWatchFace(canvas, bounds);
+            if (hasAnyComplicationConfigured())
+                drawSign(canvas, bounds);
         }
 
         private void drawBackground(Canvas canvas) {
@@ -463,55 +473,20 @@ public class HighlyConfigurableWatchFace extends CanvasWatchFaceService {
             }
         }
 
-        private void drawWatchFace(Canvas canvas, Rect bounds) {
-
-            if (ambient) {
-                Rect timeBounds = new Rect();
-                String timeText = ambientTimeFormat.format(calendar.getTime());
-                int timeX;
-                int timeY;
-
-                timePaint.getTextBounds(timeText, 0, timeText.length(), timeBounds);
-                timeX = Math.abs(bounds.centerX() - timeBounds.centerX());
-                timeY = Math.abs(bounds.centerY() - timeBounds.centerY());
-
-                canvas.drawText(timeText, timeX, timeY, timePaint);
-            } else {
-                Rect timeBounds = new Rect();
-                String timeText = normalTimeFormat.format(calendar.getTime());
-                String[] timeParts = timeText.split(":");
-
-                int margin = bounds.width() / 12;
-                boolean paintDividers = calendar.get(Calendar.SECOND) % 2 == 0;
-
-                // Minute: in center
-                timePaint.getTextBounds(timeParts[1], 0, timeParts[1].length(), timeBounds);
-                int minuteX = Math.abs(bounds.centerX() - timeBounds.centerX());
-                int minuteY = Math.abs(bounds.centerY() - timeBounds.centerY());
-                int minuteRight = minuteX + timeBounds.width();
-
-                canvas.drawText(timeParts[1], minuteX, minuteY, timePaint);
-
-                // Hour
-                timePaint.getTextBounds(timeParts[0], 0, timeParts[0].length(), timeBounds);
-                int hourX = minuteX - timeBounds.width() - margin;
-
-                canvas.drawText(timeParts[0], hourX, minuteY, timePaint);
-
-                if (paintDividers) {
-                    canvas.drawText(":", minuteX - margin, minuteY, dividerPaint);
-                }
-
-                // Second
-                timePaint.getTextBounds(timeParts[2], 0, timeParts[2].length(), timeBounds);
-                int secondX = minuteRight + margin;
-
-                canvas.drawText(timeParts[2], secondX, minuteY, timePaint);
-
-                if (paintDividers) {
-                    canvas.drawText(":", secondX - margin, minuteY, dividerPaint);
-                }
-            }
+        private void drawSign(Canvas canvas, Rect bounds) {
+            int signSize = bounds.centerX() / 10;
+            canvas.drawLine(
+                    bounds.centerX() - signSize,
+                    bounds.centerY(),
+                    bounds.centerX() + signSize,
+                    bounds.centerY(),
+                    signPaint);
+            canvas.drawLine(
+                    bounds.centerX(),
+                    bounds.centerY() - signSize,
+                    bounds.centerX(),
+                    bounds.centerY() + signSize,
+                    signPaint);
         }
 
         @Override
