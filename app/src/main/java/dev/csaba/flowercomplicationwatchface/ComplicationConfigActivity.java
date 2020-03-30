@@ -1,4 +1,4 @@
-package dev.csaba.complicationflowerwatchface;
+package dev.csaba.flowercomplicationwatchface;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 /**
- * The watch-side config activity for {@link ComplicationFlowerWatchFace}, which allows for setting
+ * The watch-side config activity for {@link FlowerComplicationWatchFace}, which allows for setting
  * the left and right complications of watch face.
  */
 public class ComplicationConfigActivity extends Activity implements View.OnClickListener {
@@ -86,7 +86,7 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
         selectedComplicationId = -1;
 
         watchFaceComponentName =
-                new ComponentName(getApplicationContext(), ComplicationFlowerWatchFace.class);
+                new ComponentName(getApplicationContext(), FlowerComplicationWatchFace.class);
 
         complicationBackgrounds = new ImageView[MAX_LOCATION_INDEX + 1];
         complications = new ImageButton[MAX_LOCATION_INDEX + 1];

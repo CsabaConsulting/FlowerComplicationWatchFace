@@ -1,4 +1,4 @@
-# ComplicationFlowerWatchFace
+# FlowerComplicationWatchFace
 Wear OS watch consisting of complications laid out in a flower pattern
 
 Goals:

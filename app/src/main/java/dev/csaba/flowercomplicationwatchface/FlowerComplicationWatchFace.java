@@ -1,4 +1,4 @@
-package dev.csaba.complicationflowerwatchface;
+package dev.csaba.flowercomplicationwatchface;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -40,9 +40,9 @@ import java.util.concurrent.TimeUnit;
  * in the Google Watch Face Code Lab:
  * https://codelabs.developers.google.com/codelabs/watchface/index.html#0
  */
-public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
+public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
 
-    private static final String TAG = "ComplicationFlowerWatchFace";
+    private static final String TAG = "FlowerComplicationWatchFace";
 
     /*
      * Update rate in milliseconds for interactive mode. Updating once a second to advance seconds.
@@ -60,15 +60,15 @@ public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
     }
 
     private static class EngineHandler extends Handler {
-        private final WeakReference<ComplicationFlowerWatchFace.Engine> mWeakReference;
+        private final WeakReference<dev.csaba.flowercomplicationwatchface.FlowerComplicationWatchFace.Engine> mWeakReference;
 
-        EngineHandler(ComplicationFlowerWatchFace.Engine reference) {
+        EngineHandler(dev.csaba.flowercomplicationwatchface.FlowerComplicationWatchFace.Engine reference) {
             mWeakReference = new WeakReference<>(reference);
         }
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            ComplicationFlowerWatchFace.Engine engine = mWeakReference.get();
+            dev.csaba.flowercomplicationwatchface.FlowerComplicationWatchFace.Engine engine = mWeakReference.get();
             if (engine != null) {
                 if (msg.what == MSG_UPDATE_TIME) {
                     engine.handleUpdateTimeMessage();
@@ -109,7 +109,7 @@ public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
 
-            setWatchFaceStyle(new WatchFaceStyle.Builder(ComplicationFlowerWatchFace.this)
+            setWatchFaceStyle(new WatchFaceStyle.Builder(dev.csaba.flowercomplicationwatchface.FlowerComplicationWatchFace.this)
                     .setAcceptsTapEvents(true)
                     .build());
 
@@ -506,7 +506,7 @@ public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
             }
             registeredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            ComplicationFlowerWatchFace.this.registerReceiver(timeZoneReceiver, filter);
+            dev.csaba.flowercomplicationwatchface.FlowerComplicationWatchFace.this.registerReceiver(timeZoneReceiver, filter);
         }
 
         private void unregisterReceiver() {
@@ -514,7 +514,7 @@ public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
                 return;
             }
             registeredTimeZoneReceiver = false;
-            ComplicationFlowerWatchFace.this.unregisterReceiver(timeZoneReceiver);
+            dev.csaba.flowercomplicationwatchface.FlowerComplicationWatchFace.this.unregisterReceiver(timeZoneReceiver);
         }
 
         /**

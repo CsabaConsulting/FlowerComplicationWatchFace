@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Complication Flower Watch Face</string>
+    <string name="app_name">Flower Complication Watch Face</string>
     <string name="message">Watch face tapped</string>
-    <string name="watch_name">Complication Flower Watch</string>
+    <string name="watch_name">Flower Complication Watch</string>
     <string name="complication_ne_name">Complication NE</string>
     <string name="complication_e_name">Complication E</string>
     <string name="complication_se_name">Complication SE</string>
