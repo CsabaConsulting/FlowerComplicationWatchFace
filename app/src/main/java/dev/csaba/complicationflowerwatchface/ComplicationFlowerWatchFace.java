@@ -250,8 +250,8 @@ public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
                 if (complicationData != null
                     && complicationData.isActive(currentTimeMillis)
                     && complicationData.getType() != ComplicationData.TYPE_NOT_CONFIGURED
-                    && complicationData.getType() != ComplicationData.TYPE_EMPTY) {
-
+                    && complicationData.getType() != ComplicationData.TYPE_EMPTY)
+                {
                     ComplicationDrawable complicationDrawable =
                             complicationDrawableSparseArray.get(complicationIndex);
                     Rect complicationBoundingRect = complicationDrawable.getBounds();
@@ -382,51 +382,54 @@ public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
              */
 
             // For most Wear devices, width and height are the same, so we just chose one (width).
-            int sizeOfRoundComplication = width / 4;
-            int heightOfLongComplication = width / 5;
-            int midpointOfScreen = width / 2;
-            int gap = width / 128;
+            int diameter = width / 3;
+            int radius = diameter / 2;
+            int gap = (int)(0.267949192 * radius);
 
             for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
                 int verticalOffset;
-                if (complicationIndex < 2) {
-                    verticalOffset = gap;
-                } else if (complicationIndex < 4) {
-                    verticalOffset = midpointOfScreen + heightOfLongComplication;
-                } else if (complicationIndex == 4) {
-                    verticalOffset = midpointOfScreen - heightOfLongComplication;
-                } else {
-                    verticalOffset = midpointOfScreen;
+                switch (complicationIndex) {
+                    case 0:
+                    case 5:
+                        verticalOffset = gap;
+                        break;
+                    case 1:
+                    case 4:
+                    case 6:
+                        verticalOffset = diameter;
+                        break;
+                    case 2:
+                    case 3:
+                    default:
+                        verticalOffset = width - diameter - gap;
+                        break;
                 }
-                int horizontalOffset = 0;
-                if (complicationIndex >= 4) {
-                    horizontalOffset = gap * 2;
-                } else {
-                    if (complicationIndex % 2 == 0) {
-                        horizontalOffset = midpointOfScreen - sizeOfRoundComplication;
-                    } else {
-                        horizontalOffset = midpointOfScreen;
-                    }
+                int horizontalOffset;
+                switch (complicationIndex) {
+                    case 0:
+                    case 2:
+                        horizontalOffset = radius + diameter;
+                        break;
+                    case 1:
+                        horizontalOffset = diameter * 2;
+                        break;
+                    case 3:
+                    case 5:
+                        horizontalOffset = radius;
+                        break;
+                    case 4:
+                        horizontalOffset = 0;
+                        break;
+                    case 6:
+                    default:
+                        horizontalOffset = diameter;
+                        break;
                 }
 
-                Rect complicationBounds = null;
-                if (complicationIndex < 4) {
-                    complicationBounds =
-                        // Left, Top, Right, Bottom
-                        new Rect(
-                            horizontalOffset,
-                            verticalOffset,
-                            horizontalOffset + sizeOfRoundComplication,
-                            verticalOffset + sizeOfRoundComplication);
-                } else {
-                    complicationBounds =
-                            // Left, Top, Right, Bottom
-                        new Rect(
-                            horizontalOffset,
-                            verticalOffset,
-                            width - horizontalOffset,
-                            verticalOffset + heightOfLongComplication);
-                }
+                Rect complicationBounds =
+                    // Left, Top, Right, Bottom
+                    new Rect(horizontalOffset, verticalOffset,
+                        horizontalOffset + diameter,verticalOffset + diameter);
 
                 Log.d(TAG, String.format("Complication %d bounds, %d x %d %d x %d",
                         complicationIndex, complicationBounds.left, complicationBounds.top,
@@ -447,7 +450,7 @@ public class ComplicationFlowerWatchFace extends CanvasWatchFaceService {
 
             drawBackground(canvas);
             drawComplications(canvas, now);
-            if (hasAnyComplicationConfigured())
+            if (!hasAnyComplicationConfigured())
                 drawSign(canvas, bounds);
         }
 

@@ -18,47 +18,23 @@
     <item
         android:top="0dp"
         android:left="0dp"
-        android:width="170dp"
-        android:height="40dp">
+        android:width="66dp"
+        android:height="66dp">
 
-        <shape android:shape="rectangle">
+        <shape android:shape="oval">
             <solid android:color="@color/transparent_grey" />
-            <corners android:radius="20dp" />
         </shape>
     </item>
     <item
         android:top="2dp"
         android:left="2dp"
-        android:width="166dp"
-        android:height="36dp">
+        android:width="62dp"
+        android:height="62dp">
 
-        <shape android:shape="rectangle">
+        <shape android:shape="oval">
             <stroke
                 android:width="1dp"
-                android:dashWidth="4dp"
-                android:dashGap="3dp"
                 android:color="@color/white" />
-            <corners android:radius="22dp" />
-        </shape>
-    </item>
-    <item
-        android:top="18dp"
-        android:left="72dp"
-        android:width="28dp"
-        android:height="4dp">
-
-        <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
-        </shape>
-    </item>
-    <item
-        android:top="6dp"
-        android:left="84dp"
-        android:width="4dp"
-        android:height="28dp">
-
-        <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
         </shape>
     </item>
 </layer-list>

@@ -21,8 +21,8 @@
     app:backgroundColor="@android:color/black"
     app:borderColor="@color/brown"
     app:borderDashGap="2dp"
-    app:borderDashWidth="16dp"
-    app:borderRadius="51dp"
+    app:borderDashWidth="2dp"
+    app:borderRadius="68dp"
     app:borderStyle="dashed"
     app:borderWidth="1dp"
     app:highlightColor="@color/fuchsia"
@@ -31,10 +31,10 @@
     app:rangedValueRingWidth="1dp"
     app:rangedValueSecondaryColor="@color/white"
     app:textColor="@color/yellow"
-    app:textSize="26sp"
+    app:textSize="36dp"
     app:textTypeface="Roboto"
     app:titleColor="@color/amber"
-    app:titleSize="28sp"
+    app:titleSize="18dp"
     app:titleTypeface="Roboto">
 
     <ambient

@@ -2,4 +2,11 @@
     <string name="app_name">Complication Flower Watch Face</string>
     <string name="message">Watch face tapped</string>
     <string name="watch_name">Complication Flower Watch</string>
+    <string name="complication_ne_name">Complication NE</string>
+    <string name="complication_e_name">Complication E</string>
+    <string name="complication_se_name">Complication SE</string>
+    <string name="complication_sw_name">Complication SW</string>
+    <string name="complication_w_name">Complication W</string>
+    <string name="complication_nw_name">Complication NW</string>
+    <string name="complication_center_name">Complication Center</string>
 </resources>
