@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,6 +17,7 @@ import android.os.Message;
 
 import androidx.annotation.NonNull;
 
+import android.preference.PreferenceManager;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
@@ -29,6 +31,8 @@ import android.view.SurfaceHolder;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -53,6 +57,14 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
      * Handler message id for updating the time periodically in interactive mode.
      */
     private static final int MSG_UPDATE_TIME = 0;
+
+    private static final String COLOR_SCHEME_TAG = "colorScheme";
+    private static final Map<String, Integer> COLOR_MAP = new HashMap<String, Integer>()
+    {{
+        put("r", Color.YELLOW);
+        put("g", Color.GREEN);
+        put("b", Color.CYAN);
+    }};
 
     @Override
     public Engine onCreateEngine() {
@@ -116,10 +128,23 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
             calendar = Calendar.getInstance();
 
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            String colorScheme = getColorScheme();
 
             initializeComplications(displayMetrics);
 
-            initializeWatchFace(displayMetrics);
+            initializeWatchFace(displayMetrics, colorScheme);
+        }
+
+        private SharedPreferences getPreferences() {
+            return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        }
+
+        private String getColorScheme() {
+            return getPreferences().getString(COLOR_SCHEME_TAG, "r");
+        }
+
+        private void setColorScheme(String colorScheme) {
+            getPreferences().edit().putString(COLOR_SCHEME_TAG, colorScheme).apply();
         }
 
         private void initializeComplications(DisplayMetrics displayMetrics) {
@@ -152,10 +177,10 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
             setActiveComplications(ComplicationConfigActivity.LOCATION_INDEXES);
         }
 
-        private void initializeWatchFace(DisplayMetrics displayMetrics) {
+        private void initializeWatchFace(DisplayMetrics displayMetrics, String colorScheme) {
             // The sign paint
             signPaint = new Paint();
-            signPaint.setColor(Color.YELLOW);
+            signPaint.setColor(COLOR_MAP.get(colorScheme));
             signPaint.setStrokeWidth(15f);
             signPaint.setAntiAlias(true);
             signPaint.setStrokeCap(Paint.Cap.SQUARE);
