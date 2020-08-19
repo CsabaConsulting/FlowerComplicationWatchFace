@@ -22,7 +22,7 @@
     <group
         android:name="triangleGroup">
         <path
-            android:name="triangle"
+            android:name="red_triangle"
             android:fillColor="#FF0000"
             android:pathData="m 25,0 l 25,15 -50,0 z" />
     </group>

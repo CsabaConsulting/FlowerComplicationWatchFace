@@ -25,5 +25,9 @@
             android:name="green_triangle"
             android:fillColor="#009900"
             android:pathData="m 25,0 l 25,15 -50,0 z" />
+        <path
+            android:name="white_oval"
+            android:fillColor="#FFFFFF"
+            android:pathData="M 24.5 3 a 10 6 0 1 0 1 0 z"/>
     </group>
 </vector>

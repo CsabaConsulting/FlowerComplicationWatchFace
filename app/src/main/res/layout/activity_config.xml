@@ -187,6 +187,7 @@
     <ImageView
         android:id="@+id/red_color_scheme_background1"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/red_scheme_selector_1"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_centerHorizontal="true"
@@ -198,6 +199,7 @@
     <ImageButton
         android:id="@+id/red_color_scheme1"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/red_scheme_selector_1"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_alignStart="@+id/red_color_scheme_background1"
@@ -207,6 +209,7 @@
     <ImageView
         android:id="@+id/red_color_scheme_background2"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/red_scheme_selector_2"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_alignEnd="@+id/watch_face_background"
@@ -220,6 +223,7 @@
     <ImageButton
         android:id="@+id/red_color_scheme2"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/red_scheme_selector_2"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:rotation="-60"
@@ -230,6 +234,7 @@
     <ImageView
         android:id="@+id/green_color_scheme_background1"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/green_scheme_selector_1"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_alignEnd="@+id/watch_face_background"
@@ -243,6 +248,7 @@
     <ImageButton
         android:id="@+id/green_color_scheme1"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/green_scheme_selector_1"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:rotation="-120"
@@ -253,6 +259,7 @@
     <ImageView
         android:id="@+id/green_color_scheme_background2"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/green_scheme_selector_2"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_centerHorizontal="true"
@@ -265,6 +272,7 @@
     <ImageButton
         android:id="@+id/green_color_scheme2"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/green_scheme_selector_2"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:rotation="180"
@@ -275,6 +283,7 @@
     <ImageView
         android:id="@+id/blue_color_scheme_background1"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/blue_scheme_selector_1"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_alignStart="@+id/watch_face_background"
@@ -288,6 +297,7 @@
     <ImageButton
         android:id="@+id/blue_color_scheme1"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/blue_scheme_selector_1"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:rotation="120"
@@ -298,6 +308,7 @@
     <ImageView
         android:id="@+id/blue_color_scheme_background2"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/blue_scheme_selector_2"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_alignStart="@+id/watch_face_background"
@@ -311,6 +322,7 @@
     <ImageButton
         android:id="@+id/blue_color_scheme2"
         style="?android:borderlessButtonStyle"
+        android:contentDescription="@string/blue_scheme_selector_2"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:rotation="60"

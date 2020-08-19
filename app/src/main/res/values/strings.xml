@@ -9,4 +9,10 @@
     <string name="complication_w_name">Complication W</string>
     <string name="complication_nw_name">Complication NW</string>
     <string name="complication_center_name">Complication Center</string>
+    <string name="red_scheme_selector_1">Red scheme selector 1</string>
+    <string name="red_scheme_selector_2">Red scheme selector 2</string>
+    <string name="green_scheme_selector_1">Green scheme selector 1</string>
+    <string name="green_scheme_selector_2">Green scheme selector 2</string>
+    <string name="blue_scheme_selector_1">Blue scheme selector 1</string>
+    <string name="blue_scheme_selector_2">Blue scheme selector 2</string>
 </resources>
