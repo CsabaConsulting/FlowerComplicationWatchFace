@@ -191,6 +191,7 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
             for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
                 setComplicationDrawable(complicationIndex, colorScheme, appContext);
             }
+            complicationColorScheme = colorScheme;
 
             setActiveComplications(ComplicationConfigActivity.LOCATION_INDEXES);
         }
