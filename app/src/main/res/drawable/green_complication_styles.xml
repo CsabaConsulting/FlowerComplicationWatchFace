@@ -33,7 +33,7 @@
     app:textColor="@color/neon_green"
     app:textSize="36dp"
     app:textTypeface="Roboto"
-    app:titleColor="@color/amber"
+    app:titleColor="@color/faded_green"
     app:titleSize="18dp"
     app:titleTypeface="Roboto">
 
