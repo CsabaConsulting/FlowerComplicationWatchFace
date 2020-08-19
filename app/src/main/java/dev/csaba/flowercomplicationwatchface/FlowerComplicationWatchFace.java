@@ -58,13 +58,18 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
      */
     private static final int MSG_UPDATE_TIME = 0;
 
-    private static final String COLOR_SCHEME_TAG = "colorScheme";
     private static final Map<String, Integer> COLOR_MAP = new HashMap<String, Integer>()
     {{
         put("r", Color.YELLOW);
         put("g", Color.GREEN);
         put("b", Color.CYAN);
     }};
+    private static final Map<String, Integer> COMPLICATION_COLOR_MAP =
+        new HashMap<String, Integer>() {{
+            put("r", R.drawable.red_complication_styles);
+            put("g", R.drawable.green_complication_styles);
+            put("b", R.drawable.blue_complication_styles);
+        }};
 
     @Override
     public Engine onCreateEngine() {
@@ -107,6 +112,9 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
 
         private boolean ambient;
 
+        private volatile String complicationColorScheme;
+        private volatile String paintColorScheme;
+
         /* Maps active complication ids to the data for that complication. Note: Data will only be
          * present if the user has chosen a provider via the settings activity for the watch face.
          */
@@ -130,7 +138,7 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
             String colorScheme = getColorScheme();
 
-            initializeComplications(displayMetrics);
+            initializeComplications(displayMetrics, colorScheme);
 
             initializeWatchFace(displayMetrics, colorScheme);
         }
@@ -140,14 +148,16 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
         }
 
         private String getColorScheme() {
-            return getPreferences().getString(COLOR_SCHEME_TAG, "r");
+            return getPreferences().getString(
+                    ComplicationConfigActivity.COLOR_SCHEME_TAG, "r");
         }
 
         private void setColorScheme(String colorScheme) {
-            getPreferences().edit().putString(COLOR_SCHEME_TAG, colorScheme).apply();
+            getPreferences().edit().putString(
+                    ComplicationConfigActivity.COLOR_SCHEME_TAG, colorScheme).apply();
         }
 
-        private void initializeComplications(DisplayMetrics displayMetrics) {
+        private void initializeComplications(DisplayMetrics displayMetrics, String colorScheme) {
             Log.d(TAG, "initializeComplications()");
 
             activeComplicationDataSparseArray =
@@ -161,10 +171,9 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
             // All styles for the complications are defined in
             // drawable/red_complication_styles.xml.
             Context appContext = getApplicationContext();
+            ComplicationDrawable complicationDrawable =
+                    (ComplicationDrawable) getDrawable(COMPLICATION_COLOR_MAP.get(colorScheme));
             for (int complicationId : ComplicationConfigActivity.LOCATION_INDEXES) {
-                ComplicationDrawable complicationDrawable =
-                        (ComplicationDrawable) getDrawable(R.drawable.red_complication_styles);
-
                 if (complicationDrawable != null) {
                     complicationDrawable.setContext(appContext);
                 }
@@ -178,6 +187,8 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
         }
 
         private void initializeWatchFace(DisplayMetrics displayMetrics, String colorScheme) {
+            paintColorScheme = colorScheme;
+
             // The sign paint
             signPaint = new Paint();
             signPaint.setColor(COLOR_MAP.get(colorScheme));
@@ -205,12 +216,22 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
              */
             boolean mBurnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
 
+            Log.d(TAG, "onPropertiesChanged");
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.
             ComplicationDrawable complicationDrawable;
 
             for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
                 complicationDrawable = complicationDrawableSparseArray.get(complicationIndex);
+                String colorScheme = getColorScheme();
+                if (complicationColorScheme != null && !colorScheme.equals(complicationColorScheme)) {
+                    complicationColorScheme = colorScheme;
+                    Log.d(TAG, "Re init ComplicationDrawable color schemes");
+                    Context appContext = getApplicationContext();
+                    for (int complicationId : ComplicationConfigActivity.LOCATION_INDEXES) {
+                        complicationDrawableSparseArray.put(complicationId, complicationDrawable);
+                    }
+                }
 
                 if (complicationDrawable != null) {
                     complicationDrawable.setLowBitAmbient(lowBitAmbient);
@@ -512,10 +533,17 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
 
+            Log.d(TAG, "onVisibilityChanged");
             if (visible) {
                 registerReceiver();
                 /* Update time zone in case it changed while we weren't visible. */
                 calendar.setTimeZone(TimeZone.getDefault());
+                String colorScheme = getColorScheme();
+                if (paintColorScheme != null && !paintColorScheme.equals(colorScheme)) {
+                    paintColorScheme = colorScheme;
+                    signPaint.setColor(COLOR_MAP.get(colorScheme));
+                    Log.d(TAG, "Re init paint color schemes");
+                }
                 invalidate();
             } else {
                 unregisterReceiver();

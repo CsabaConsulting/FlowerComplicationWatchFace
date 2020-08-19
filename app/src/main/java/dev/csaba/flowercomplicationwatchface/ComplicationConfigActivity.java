@@ -3,10 +3,13 @@ package dev.csaba.flowercomplicationwatchface;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
+import android.preference.PreferenceManager;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.ComplicationProviderInfo;
@@ -17,6 +20,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
@@ -61,6 +66,32 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
         R.id.complication_center
     };
 
+    public static final String COLOR_SCHEME_TAG = "colorScheme";
+    private static final int MAX_COLOR_SCHEME = 3;
+    private static final int[] COLOR_SCHEME_BG_RESOURCE_IDS = {
+        R.id.red_color_scheme_background1,
+        R.id.red_color_scheme_background2,
+        R.id.green_color_scheme_background1,
+        R.id.green_color_scheme_background2,
+        R.id.blue_color_scheme_background1,
+        R.id.blue_color_scheme_background2
+    };
+    private static final int[] COLOR_SCHEME_RESOURCE_IDS = {
+        R.id.red_color_scheme1,
+        R.id.red_color_scheme2,
+        R.id.green_color_scheme1,
+        R.id.green_color_scheme2,
+        R.id.blue_color_scheme1,
+        R.id.blue_color_scheme2
+    };
+    private static final String[] COLOR_SCHEME_IDS = { "r", "g", "b" };
+    private static final Map<String, Integer> COLOR_SCHEME_REVERSE_INDEX =
+        new HashMap<String, Integer>() {{
+            put("r", 0);
+            put("g", 1);
+            put("b", 2);
+        }};
+
     // Selected complication id by user.
     private int selectedComplicationId;
 
@@ -73,7 +104,12 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
     private ImageView[] complicationBackgrounds;
     private ImageButton[] complications;
 
+    private ImageView[] colorSchemeBackgrounds = new ImageView[MAX_COLOR_SCHEME * 2];
+    private ImageButton[] colorSchemes = new ImageButton[MAX_COLOR_SCHEME * 2];
+
     private Drawable defaultAddComplicationDrawable;
+
+    private String colorScheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +138,18 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
             // Sets default as "Add Complication" icon.
             complications[locationIndex].setImageDrawable(defaultAddComplicationDrawable);
             complicationBackgrounds[locationIndex].setVisibility(View.INVISIBLE);
+        }
+
+        colorScheme = getColorScheme();
+        for (int colorSchemeIndex = 0; colorSchemeIndex < MAX_COLOR_SCHEME * 2; colorSchemeIndex++) {
+            colorSchemeBackgrounds[colorSchemeIndex] =
+                    findViewById(COLOR_SCHEME_BG_RESOURCE_IDS[colorSchemeIndex]);
+            if (colorScheme.equals(COLOR_SCHEME_IDS[colorSchemeIndex / 2])) {
+                colorSchemeBackgrounds[colorSchemeIndex].setBackgroundColor(Color.WHITE);
+            }
+            colorSchemes[colorSchemeIndex] =
+                    findViewById(COLOR_SCHEME_RESOURCE_IDS[colorSchemeIndex]);
+            colorSchemes[colorSchemeIndex].setOnClickListener(this);
         }
 
         // Initialization of code to retrieve active complication data for the watch face.
@@ -147,6 +195,35 @@ public class ComplicationConfigActivity extends Activity implements View.OnClick
             }
             complicationIndex++;
         }
+        int colorSchemeIndex = 0;
+        for (ImageButton colorSchemeButton: colorSchemes) {
+            if (view.equals(colorSchemeButton)) {
+                if (!colorScheme.equals(COLOR_SCHEME_IDS[colorSchemeIndex / 2])) {
+                    int currentIndex = COLOR_SCHEME_REVERSE_INDEX.get(colorScheme);
+                    colorSchemeBackgrounds[currentIndex * 2].setBackgroundColor(Color.TRANSPARENT);
+                    colorSchemeBackgrounds[currentIndex * 2 + 1].setBackgroundColor(Color.TRANSPARENT);
+                    colorSchemeBackgrounds[colorSchemeIndex / 2 * 2].setBackgroundColor(Color.WHITE);
+                    colorSchemeBackgrounds[colorSchemeIndex / 2 * 2 + 1].setBackgroundColor(Color.WHITE);
+                    colorScheme = COLOR_SCHEME_IDS[colorSchemeIndex / 2];
+                    setColorScheme(COLOR_SCHEME_IDS[colorSchemeIndex / 2]);
+                    Log.d(TAG, "Set color scheme to " + COLOR_SCHEME_IDS[colorSchemeIndex / 2]);
+                }
+                break;
+            }
+            colorSchemeIndex++;
+        }
+    }
+
+    private SharedPreferences getPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    }
+
+    private String getColorScheme() {
+        return getPreferences().getString(ComplicationConfigActivity.COLOR_SCHEME_TAG, "r");
+    }
+
+    private void setColorScheme(String colorScheme) {
+        getPreferences().edit().putString(COLOR_SCHEME_TAG, colorScheme).apply();
     }
 
     // Verifies the watch face supports the complication location, then launches the helper

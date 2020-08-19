@@ -183,4 +183,139 @@
         android:layout_alignTop="@+id/complication_center_background"
         android:layout_alignStart="@+id/complication_center_background" />
 
+
+    <ImageView
+        android:id="@+id/red_color_scheme_background1"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/watch_face_background"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/red_color_scheme" />
+
+    <ImageButton
+        android:id="@+id/red_color_scheme1"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_alignStart="@+id/red_color_scheme_background1"
+        android:layout_alignTop="@+id/red_color_scheme_background1"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/red_color_scheme_background2"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_alignEnd="@+id/watch_face_background"
+        android:layout_marginEnd="-3dp"
+        android:layout_alignBottom="@+id/watch_face_background"
+        android:layout_marginBottom="43dp"
+        android:rotation="-60"
+        android:background="@android:color/transparent"
+        android:src="@drawable/red_color_scheme" />
+
+    <ImageButton
+        android:id="@+id/red_color_scheme2"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:rotation="-60"
+        android:layout_alignStart="@+id/red_color_scheme_background2"
+        android:layout_alignTop="@+id/red_color_scheme_background2"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/green_color_scheme_background1"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_alignEnd="@+id/watch_face_background"
+        android:layout_marginEnd="-3dp"
+        android:layout_alignTop="@+id/watch_face_background"
+        android:layout_marginTop="43dp"
+        android:rotation="-120"
+        android:background="@android:color/transparent"
+        android:src="@drawable/green_color_scheme" />
+
+    <ImageButton
+        android:id="@+id/green_color_scheme1"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:rotation="-120"
+        android:layout_alignStart="@+id/green_color_scheme_background1"
+        android:layout_alignTop="@+id/green_color_scheme_background1"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/green_color_scheme_background2"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/watch_face_background"
+        android:layout_marginTop="5dp"
+        android:rotation="180"
+        android:background="@android:color/transparent"
+        android:src="@drawable/green_color_scheme" />
+
+    <ImageButton
+        android:id="@+id/green_color_scheme2"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:rotation="180"
+        android:layout_alignStart="@+id/green_color_scheme_background2"
+        android:layout_alignTop="@+id/green_color_scheme_background2"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/blue_color_scheme_background1"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_alignStart="@+id/watch_face_background"
+        android:layout_marginStart="-3dp"
+        android:layout_alignTop="@+id/watch_face_background"
+        android:layout_marginTop="43dp"
+        android:rotation="120"
+        android:background="@android:color/transparent"
+        android:src="@drawable/blue_color_scheme" />
+
+    <ImageButton
+        android:id="@+id/blue_color_scheme1"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:rotation="120"
+        android:layout_alignStart="@+id/blue_color_scheme_background1"
+        android:layout_alignTop="@+id/blue_color_scheme_background1"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/blue_color_scheme_background2"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_alignStart="@+id/watch_face_background"
+        android:layout_marginStart="-3dp"
+        android:layout_alignBottom="@+id/watch_face_background"
+        android:layout_marginBottom="43dp"
+        android:rotation="60"
+        android:background="@android:color/transparent"
+        android:src="@drawable/blue_color_scheme" />
+
+    <ImageButton
+        android:id="@+id/blue_color_scheme2"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:rotation="60"
+        android:layout_alignStart="@+id/blue_color_scheme_background2"
+        android:layout_alignTop="@+id/blue_color_scheme_background2"
+        android:background="@android:color/transparent" />
+
 </RelativeLayout>
