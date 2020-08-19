@@ -159,11 +159,11 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
             // complication on the watch face. In this watch face, we only create left and right,
             // but you could add many more.
             // All styles for the complications are defined in
-            // drawable/custom_complication_styles.xml.
+            // drawable/red_complication_styles.xml.
             Context appContext = getApplicationContext();
             for (int complicationId : ComplicationConfigActivity.LOCATION_INDEXES) {
                 ComplicationDrawable complicationDrawable =
-                        (ComplicationDrawable) getDrawable(R.drawable.custom_complication_styles);
+                        (ComplicationDrawable) getDrawable(R.drawable.red_complication_styles);
 
                 if (complicationDrawable != null) {
                     complicationDrawable.setContext(appContext);
