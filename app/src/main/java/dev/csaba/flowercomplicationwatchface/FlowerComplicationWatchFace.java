@@ -157,6 +157,23 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
                     ComplicationConfigActivity.COLOR_SCHEME_TAG, colorScheme).apply();
         }
 
+        private ComplicationDrawable setComplicationDrawable(int complicationId, String colorScheme,
+                                                             Context appContext)
+        {
+            ComplicationDrawable complicationDrawable =
+                    (ComplicationDrawable) getDrawable(COMPLICATION_COLOR_MAP.get(colorScheme));
+
+            if (complicationDrawable != null) {
+                complicationDrawable.setContext(appContext);
+            }
+
+            // Adds new complications to a SparseArray to simplify setting styles and ambient
+            // properties for all complications, i.e., iterate over them all.
+            complicationDrawableSparseArray.put(complicationId, complicationDrawable);
+
+            return complicationDrawable;
+        }
+
         private void initializeComplications(DisplayMetrics displayMetrics, String colorScheme) {
             Log.d(TAG, "initializeComplications()");
 
@@ -171,16 +188,8 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
             // All styles for the complications are defined in
             // drawable/red_complication_styles.xml.
             Context appContext = getApplicationContext();
-            ComplicationDrawable complicationDrawable =
-                    (ComplicationDrawable) getDrawable(COMPLICATION_COLOR_MAP.get(colorScheme));
-            for (int complicationId : ComplicationConfigActivity.LOCATION_INDEXES) {
-                if (complicationDrawable != null) {
-                    complicationDrawable.setContext(appContext);
-                }
-
-                // Adds new complications to a SparseArray to simplify setting styles and ambient
-                // properties for all complications, i.e., iterate over them all.
-                complicationDrawableSparseArray.put(complicationId, complicationDrawable);
+            for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
+                setComplicationDrawable(complicationIndex, colorScheme, appContext);
             }
 
             setActiveComplications(ComplicationConfigActivity.LOCATION_INDEXES);
@@ -219,24 +228,39 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
             Log.d(TAG, "onPropertiesChanged");
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.
-            ComplicationDrawable complicationDrawable;
+            String colorScheme = getColorScheme();
+            boolean shouldReset = false;
+            if (complicationColorScheme != null && !colorScheme.equals(complicationColorScheme)) {
+                complicationColorScheme = colorScheme;
+                Log.d(TAG, "Re init ComplicationDrawable color schemes");
+                Context appContext = getApplicationContext();
+                for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
+                    ComplicationDrawable complicationDrawable =
+                            complicationDrawableSparseArray.get(complicationIndex);
+                    Rect complicationBounds = complicationDrawable.getBounds();
+                    Log.d(TAG, String.format("Complication bounds %d 2, %d x %d %d x %d",
+                            complicationIndex, complicationBounds.left, complicationBounds.top,
+                            complicationBounds.width(), complicationBounds.height()));
+                    complicationDrawable =
+                            setComplicationDrawable(complicationIndex, colorScheme, appContext);
+                    complicationDrawable.setBounds(complicationBounds);
+                }
+                shouldReset = true;
+                setActiveComplications();
+            }
 
+            ComplicationDrawable complicationDrawable;
             for (int complicationIndex : ComplicationConfigActivity.LOCATION_INDEXES) {
                 complicationDrawable = complicationDrawableSparseArray.get(complicationIndex);
-                String colorScheme = getColorScheme();
-                if (complicationColorScheme != null && !colorScheme.equals(complicationColorScheme)) {
-                    complicationColorScheme = colorScheme;
-                    Log.d(TAG, "Re init ComplicationDrawable color schemes");
-                    Context appContext = getApplicationContext();
-                    for (int complicationId : ComplicationConfigActivity.LOCATION_INDEXES) {
-                        complicationDrawableSparseArray.put(complicationId, complicationDrawable);
-                    }
-                }
 
                 if (complicationDrawable != null) {
                     complicationDrawable.setLowBitAmbient(lowBitAmbient);
                     complicationDrawable.setBurnInProtection(mBurnInProtection);
                 }
+            }
+
+            if (shouldReset) {
+                setActiveComplications(ComplicationConfigActivity.LOCATION_INDEXES);
             }
         }
 
@@ -427,6 +451,7 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
              * better readability.
              */
 
+            Log.d(TAG, "onSurfaceChanged");
             // For most Wear devices, width and height are the same, so we just chose one (width).
             int diameter = width / 3;
             int radius = diameter / 2;
@@ -477,7 +502,7 @@ public class FlowerComplicationWatchFace extends CanvasWatchFaceService {
                     new Rect(horizontalOffset, verticalOffset,
                         horizontalOffset + diameter,verticalOffset + diameter);
 
-                Log.d(TAG, String.format("Complication %d bounds, %d x %d %d x %d",
+                Log.d(TAG, String.format("Complication %d bounds 1, %d x %d %d x %d",
                         complicationIndex, complicationBounds.left, complicationBounds.top,
                         complicationBounds.width(), complicationBounds.height()));
 
