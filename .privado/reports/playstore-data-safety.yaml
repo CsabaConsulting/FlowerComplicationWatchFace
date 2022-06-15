@@ -1,0 +1,9 @@
+version: v0.1
+name: playstore-data-safety-report
+projectName: ''
+createdAt: '2022-06-15 06:27:17.279661'
+updatedAt: '2022-06-15 06:27:41.765240'
+doesProcessData: false
+doesEncryptDataInTransit: true
+doesAllowDeletionOfData: false
+pii: []
