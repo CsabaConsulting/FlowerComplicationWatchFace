@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
-
-
     defaultConfig {
         applicationId "dev.csaba.complicationflowerwatchface"
         minSdkVersion 26
